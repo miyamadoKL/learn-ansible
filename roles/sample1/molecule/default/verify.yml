@@ -1,0 +1,28 @@
+---
+# This is an example playbook to execute Ansible tests.
+
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Get the file stats
+      ansible.builtin.stat:
+        path: "/etc/foo.conf"
+      register: foo_conf
+      ignore_errors: false
+
+    - name: Get another file stats
+      ansible.builtin.stat:
+        path: "/etc/bar.conf"
+      register: bar_conf
+      ignore_errors: false
+      
+    - name: Assert that the file exists
+      ansible.builtin.assert:
+        that:
+          - "foo_conf.stat.exists"
+      
+    - name: Assert that another file doesn't exist
+      ansible.builtin.assert:
+        that:
+          - "not bar_conf.stat.exists"
