@@ -1,2 +1,8 @@
 ---
 # tasks file for sample1
+- name: Deploy a test file
+  ansible.builtin.file:
+    path: /etc/foo.conf
+    state: touch
+    access_time: preserve
+    modification_time: preserve

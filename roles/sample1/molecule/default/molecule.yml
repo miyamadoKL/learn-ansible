@@ -2,9 +2,15 @@
 dependency:
   name: galaxy
 driver:
-  name: delegated
+  name: docker
+lint: |
+  set -e
+  yamllint .
+  find defaults/ tasks/ -type f -name "*.yml" | xargs ansible-lint
 platforms:
   - name: instance
+    image: docker.io/pycontribs/centos:7
+    pre_build_image: true
 provisioner:
   name: ansible
 verifier:
